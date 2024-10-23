@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-Clacks-Overhead" content="GNU Terry Pratchett" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {# {{- partial "favicon.html" . -}} #}
+      <meta name="description" content="{% block description %}{{ description }}{% endblock %}"/>
+
+<link rel="shortcut icon" href="/static/favicon.ico">
+
+
+      <link rel="stylesheet" href="/static/css/codestyles.css">  
+  <link rel="stylesheet" href="/static/css/style.css">
+    
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+</head>
+
+<body>
+  <header>
+    {% include 'partials/header.html.jinja2' %}
+  </header>
+  {% include 'partials/nav.html.jinja2' %}
+
+  <main>
+     {% block content %} {% endblock %}
+  </main>
+  <footer>
+     {% include 'partials/footer.html.jinja2' %}
+  </footer>
+
+
+</body>
+
+</html>

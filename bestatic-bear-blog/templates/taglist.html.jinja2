@@ -1,0 +1,42 @@
+{% extends "layout.html.jinja2" %}
+{% block title %}Tag: "{{ tags }}" | {{ title}} {% endblock %}
+{% block content %}
+
+
+
+    
+
+<h3><br/>Filtering for "{{ tags }}"</h3>
+
+
+  <small>
+    <a href="/posts">Remove filter</a>
+  </small>
+
+<br/>
+    <ul class="blog-posts">
+          {% for name in post %}
+
+
+    <li>
+      <span>
+        <i><time>
+          {{ post[name].metadata["date"] }}
+        </i></time>
+      </span>
+      <a href="/post/{{ post[name].slug }}">{{ post[name].metadata["title"] }}</a>
+
+
+    </li>
+
+
+
+
+        {% endfor %}
+
+</ul>
+
+
+
+
+{% endblock %}

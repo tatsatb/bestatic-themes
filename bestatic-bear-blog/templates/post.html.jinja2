@@ -1,0 +1,32 @@
+{% extends "layout.html.jinja2" %}
+{% block title %}{{post.metadata["title"]}} | {{ title}}{% endblock %}
+{% block description %}{{post.metadata["description"]}}{% endblock %}
+{% block content %}
+
+
+
+<h1><br/>{{post.metadata["title"]}}</h1>
+<br><br>
+        <i>{{post.metadata["date"]}} </i>
+      <br>
+
+    {{post.content}}
+
+
+
+
+
+      <small>
+      {% if post.tags %}
+         
+          {% for tag in post.tags %}
+    <a href="/post/tags/{{ tag }}">#{{ tag }}</a>{% if not loop.last %}, {% endif %}
+{% endfor %}
+    {% endif %}
+
+      </small>
+
+
+
+{% endblock %}
+

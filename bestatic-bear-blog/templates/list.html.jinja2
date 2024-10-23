@@ -1,0 +1,38 @@
+{% extends "layout.html.jinja2" %}
+{% block title %}Blog | {{ title}}{% endblock %}
+{% block description %}A list of all the posts on {{ title}}{% endblock %}
+{% block content %}
+
+<content>
+{% for name in post %}
+    <ul class="blog-posts">
+    <li>
+      <span>
+        <i><time>
+          {{ post[name].metadata["date"] }}
+        </i></time>
+      </span>
+      <a href="/post/{{ post[name].slug }}">{{ post[name].metadata["title"] }}</a>
+
+
+
+    </li>
+    </ul>
+
+            <small> 
+        <div>
+        {%  if post[name].tags %}
+
+         {% for tag in post[name].tags %}
+            <a href="{{root_path}}/post/tags/{{ tag }}">#{{ tag }}</a>{% if not loop.last %}, {% endif %}
+            {% endfor %} 
+          {% endif %}
+        </div>
+        </small>
+
+</content>
+
+ {% endfor %}
+
+
+{% endblock %}
