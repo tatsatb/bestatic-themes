@@ -1,0 +1,55 @@
+{% extends "layout.html.jinja2" %}
+{% block title %}{{page.metadata["title"]}} | {{ title}}{% endblock %}
+{% block description %}{{page.metadata["description"]}}{% endblock %}
+{% block content %}
+
+
+
+    <div class="container">
+     <div class="row">
+      <div class="col-sm-10 offset-sm-1 col-md-9 offset-md-1 col-lg-9 offset-lg-1 col-xl-9 offset-xl-1">
+        <h3 class="tbh3"><br/>{{page.metadata["title"]}}</h3>
+        <br/>
+        <p><a href="/people/lab-members">&lt;&lt; Back to all current members</a></p>
+
+        
+<!-- Mobile Layout (sm and lower) -->
+<div class="d-md-none">
+  <div class="row mt-4">
+    <div class="col-12 px-3">
+      {% if page.metadata['image'] %}
+        <img src="{{ page.metadata['image'] }}" 
+             alt="Photo of {{ page.metadata['title'] }}" 
+             class="img-fluid mb-4"
+             style="width: 70%; display: block; margin: 0 auto 0 0; border: 2px solid #ee5b57; padding: 4pt; background: #efefef;">
+      {% endif %}
+    </div>
+    <div class="col-12 px-3">
+      {{page.content}}
+    </div>
+  </div>
+</div>
+
+<!-- Desktop Layout (md and higher) -->
+<div class="d-none d-md-block">
+  <div class="row mt-4">
+    <div class="col-md-4 px-3">
+      {% if page.metadata['image'] %}
+        <img src="{{ page.metadata['image'] }}" 
+             alt="Photo of {{page.metadata['title'] }}" 
+             class="img-fluid"
+             style="width: 90%; display: block; margin: 0 auto 0 0; border: 2px solid #ee5b57; padding: 4pt; background: #efefef;">
+      {% endif %}
+    </div>
+    <div class="col-md-8 px-3">
+      {{page.content}}
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+</div>
+
+{% endblock %}
+

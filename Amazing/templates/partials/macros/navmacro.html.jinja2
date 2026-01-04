@@ -1,0 +1,102 @@
+{% macro render_nav_item(nav_item, level=0) %}
+  {% if nav_item is mapping %}
+    {% for title, links in nav_item.items() %}
+      {% if links is string %}
+        {% if level == 0 %}
+          <li class="nav-item ps-3">
+            <a class="nav-link" href="{{ links }}">{{ title }}</a>
+          </li>
+        {% else %}
+          <li><a class="dropdown-item" href="{{ links }}">{{ title }}</a></li>
+        {% endif %}
+      {% else %}
+        {% if level == 0 %}
+          <li class="nav-item dropdown ps-3">
+            <a class="nav-link dropdown-toggle" href="#" id="nav-{{ title|lower }}" role="button" 
+               data-bs-toggle="dropdown" aria-expanded="false">
+              {{ title }}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="nav-{{ title|lower }}">
+              {% for child in links %}
+                {{ render_nav_item(child, level + 1) }}
+              {% endfor %}
+            </ul>
+          </li>
+        {% else %}
+          <li class="dropdown-submenu dropend">
+            <a class="dropdown-item dropdown-toggle" href="#" id="nav-{{ title|lower }}"
+               data-bs-toggle="dropdown" aria-expanded="false">{{ title }}</a>
+            <ul class="dropdown-menu" aria-labelledby="nav-{{ title|lower }}">
+              {% for child in links %}
+                {{ render_nav_item(child, level + 1) }}
+              {% endfor %}
+            </ul>
+          </li>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{% macro render_nav(nav, post_directory_plural="posts") %}
+<div class="sticky">
+    <nav class="navbar navbar-dark navbar-expand-sm bg-dark justify-content-end pe-3 p-0">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsingNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse w-100 p-0" id="collapsingNavbar">
+            <ul class="navbar-nav w-100 p-0 justify-content-center" style="display: flex; align-items: center;">
+                {% if nav %}
+                    {% for item in nav %}
+                        {{ render_nav_item(item, 0) }}
+                    {% endfor %}
+                {% else %}
+                    <li class="nav-item ps-3">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item ps-3">
+                        <a class="nav-link" href="/{{ post_directory_plural }}">Blog</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item ps-3">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-input">
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="search-results" id="search-container">
+    <div id="divToHide">
+        <div class="row">
+            <div class="col-sm-12 col-md-9 offset-md-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+                <section>
+                    <h4><a target="_blank"></a></h4>
+                    <div class="search-preview"></div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const searchInput = document.getElementById('search-input');
+    const searchContainer = document.getElementById('search-container');
+
+    searchInput.addEventListener('input', () => {
+        if (searchInput.value.trim()) {
+            searchContainer.style.color = '#ffffff';
+            searchContainer.style.backgroundColor = '#373a44';
+        } else {
+            searchContainer.style.border = 'none';
+            searchContainer.style.backgroundColor = 'transparent';
+        }
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0" defer></script>
+<script src="{{root_path}}/static/js/fuse-search.js" defer></script>
+{% endmacro %}
+

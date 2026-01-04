@@ -1,0 +1,83 @@
+{% extends "layout2.html.jinja2" %}
+
+
+{% block content %}
+
+
+					<section class="main-section" id="Intro">
+						{% if extra_data %}
+							{% for item in extra_data %}
+								{% if item.docs_nav %}
+									{# First pass: render Overview section #}
+									{% for nav_section in item.docs_nav %}
+										{% for section_key, section_value in nav_section.items() %}
+											{% if section_key == 'Overview' %}
+												{% for overview_item in section_value %}
+													{% for key, value in overview_item.items() %}
+														{% if key == 'Title' %}
+															<h3 class="tbh3">{{ value }}</h3>
+														{% elif key == 'Summary' %}
+															<p>{{ value | safe }}<br/><br/></p>
+														{% endif %}
+													{% endfor %}
+												{% endfor %}
+											{% endif %}
+										{% endfor %}
+									{% endfor %}
+
+									{# Second pass: collect cards #}
+									{% set cards = [] %}
+									{% for nav_section in item.docs_nav %}
+										{% for section_key, section_value in nav_section.items() %}
+											{% if section_key != 'Overview' %}
+												{% set card_data = {'title': section_key} %}
+												{% for section_item in section_value %}
+													{% for key, value in section_item.items() %}
+														{% if key == 'Link' %}
+															{% set _ = card_data.update({'link': value}) %}
+														{% elif key == 'Description' %}
+															{% set _ = card_data.update({'description': value}) %}
+														{% endif %}
+													{% endfor %}
+												{% endfor %}
+												{% set _ = cards.append(card_data) %}
+											{% endif %}
+										{% endfor %}
+									{% endfor %}
+
+									{# Third pass: render cards in 2-column layout #}
+									{% for i in range(0, cards|length, 2) %}
+										<div class="row">
+											{% if cards[i] %}
+												<div class="col-sm-6 py-2">
+													<div class="card text-white bg-card border-info mb-3 h-100">
+														<div class="card-body">
+															<h5 class="card-title">{{ cards[i].title }}</h5>
+															<p class="card-text" style="color: rgba(255,255,255,0.99);">{{ cards[i].description }}</p>
+															<a href="{{root_path}}{{ cards[i].link }}" class="btn btn-info">Read More</a>
+														</div>
+													</div>
+												</div>
+											{% endif %}
+											{% if i+1 < cards|length and cards[i+1] %}
+												<div class="col-sm-6 py-2">
+													<div class="card text-white bg-card border-info mb-3 h-100">
+														<div class="card-body">
+															<h5 class="card-title">{{ cards[i+1].title }}</h5>
+															<p class="card-text" style="color: rgba(255,255,255,0.99);">{{ cards[i+1].description }}</p>
+															<a href="{{root_path}}{{ cards[i+1].link }}" class="btn btn-info">Read More</a>
+														</div>
+													</div>
+												</div>
+											{% endif %}
+										</div>
+									{% endfor %}
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+
+					</section>
+							<br/><br/>
+
+
+{% endblock %}

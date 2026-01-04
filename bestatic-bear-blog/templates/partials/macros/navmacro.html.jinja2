@@ -1,0 +1,25 @@
+{% macro render_nav_item(nav_item, level=0) %}
+  {% if nav_item is mapping %}
+    {% for title, links in nav_item.items() %}
+      {% if links is string %}
+        <a href="{{ links }}">{{ title }}</a>
+      {% else %}
+        {# Bear blog has a simple navigation without dropdowns #}
+        <a href="#">{{ title }}</a>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{% macro render_nav(nav, post_directory_plural="posts") %}
+<nav>
+    {% if nav %}
+        {% for item in nav %}
+            {{ render_nav_item(item, 0) }}
+        {% endfor %}
+    {% else %}
+        <a href="/">Home</a>
+        <a href="/{{ post_directory_plural }}">Blog</a>
+    {% endif %}
+</nav>
+{% endmacro %}

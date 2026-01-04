@@ -1,0 +1,197 @@
+{% extends "layout.html.jinja2" %}
+{% block title %}{{page.metadata["title"]}} | {{ title}}{% endblock %}
+{% block description %}{{page.metadata["description"]}}{% endblock %}
+{% block content %}
+
+    <div class="container mt-3">
+    {% if page.metadata.data_files and sections %}
+        {# Parse data_files from page metadata #}
+        {% set data_file_list = [] %}
+        {% set data_files_str = page.metadata.data_files | string %}
+        {% for df in data_files_str.split(',') %}
+            {% set df_clean = df.strip().replace('.yaml', '').replace('.yml', '').replace('.csv', '') %}
+            {% set _ = data_file_list.append(df_clean) %}
+        {% endfor %}
+        
+        {# Counter for tracking which data file to use #}
+        {% set data_file_index = namespace(value=0) %}
+        
+        {% for section in sections %}
+            {# Check if this section has a data marker #}
+            {% set section_content_str = section.content | join('') | string %}
+            {% set has_data_marker = '{[!data!]}' in section_content_str %}
+            
+            {% if has_data_marker %}
+                {% if data_file_index.value < data_file_list | length %}
+                    {% set current_file_name = data_file_list[data_file_index.value] %}
+                    {% if data_files and current_file_name in data_files %}
+                        {% set members_data = data_files[current_file_name] %}
+                        
+                        {# Separate PI from other members #}
+                        {% set pi_members = members_data | selectattr('category', 'equalto', 'pi') | list %}
+                        {% set other_members = members_data | selectattr('category', 'equalto', 'member') | list %}
+                        
+                        {# Display Principal Investigator #}
+                        {% if pi_members %}
+                            <div class="col-11 offset-1 col-sm-12 offset-sm-0 col-md-11 offset-md-1 col-lg-12 offset-lg-0 col-xl-11 offset-xl-1 col-xxl-10 offset-xxl-1">
+                                <br/>
+                                <h5>Principal Investigator</h5>
+                                <br/>
+                                {% for member in pi_members %}
+                                    <div class="row">
+                                        <div class="col-12 offset-0 col-sm-12 offset-sm-0 col-md-4 offset-md-0 col-lg-4 offset-lg-0 col-xl-4 offset-xl-0">
+                                            <img src="{{ member.photo }}" alt="{{ member.name }}" class="homepage-image-stretch">
+                                        </div>
+                                        <div class="col-12 offset-0 col-sm-12 offset-sm-0 col-md-8 offset-md-0 col-lg-8 offset-lg-0 col-xl-8 offset-xl-0">
+                                            <br/>
+                                            <p><strong>{{ member.name }}</strong></p>
+                                            <p>
+                                                {{ member.position }},<br/>
+                                                {{ member.department }},<br/>
+                                                {{ member.institution }}.<br/>
+                                                Email: <a href="mailto:{{ member.email }}">{{ member.email }}</a>
+                                            </p>
+                                            <br/>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        
+                        {# Display Other Lab Members #}
+                        {% if other_members %}
+                            <div class="col-11 offset-1 col-sm-12 offset-sm-0 col-md-11 offset-md-1 col-lg-12 offset-lg-0 col-xl-11 offset-xl-1 col-xxl-10 offset-xxl-1">
+                                <br/>
+                                <br/>
+                                <br/>
+                                <h5>Lab Members</h5>
+                                <br/>
+                                {% for member in other_members %}
+                                    <div class="row">
+                                        <div class="col-12 offset-0 col-sm-12 offset-sm-0 col-md-4 offset-md-0 col-lg-4 offset-lg-0 col-xl-4 offset-xl-0 pb-3">
+                                            <img src="{{ member.photo }}" alt="{{ member.name }}" class="homepage-image-stretch">
+                                        </div>
+                                        <div class="col-12 offset-0 col-sm-12 offset-sm-0 col-md-8 offset-md-0 col-lg-8 offset-lg-0 col-xl-8 offset-xl-0">
+                                            <br/>
+                                            <p><strong>{{ member.name }}</strong></p>
+                                            <p>
+                                                {{ member.position }},<br/>
+                                                {{ member.department }},<br/>
+                                                {{ member.institution }}.<br/>
+                                                Email: <a href="mailto:{{ member.email }}">{{ member.email }}</a>
+                                            </p>
+                                            <br/>
+                                        </div>
+                                    </div>
+                                    {% if not loop.last %}
+                                        <br/>
+                                        <br/>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    {# Increment counter for next data file #}
+                    {% set data_file_index.value = data_file_index.value + 1 %}
+                {% endif %}
+            {% else %}
+                {# Display regular section content if no data marker #}
+                <div class="col-11 offset-1 col-sm-12 offset-sm-0 col-md-11 offset-md-1 col-lg-12 offset-lg-0 col-xl-11 offset-xl-1 col-xxl-10 offset-xxl-1">
+                    {% for content in section.content %}
+                        {{ content | safe }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        {# Fallback to old section-based rendering if no data_files #}
+        {% for section in sections %}
+            {% if section.heading %}
+                {% if section.index == 1 %}
+                    <div class="col-11 offset-1 col-sm-12 offset-sm-0 col-md-11 offset-md-1 col-lg-12 offset-lg-0 col-xl-11 offset-xl-1 col-xxl-10 offset-xxl-1">
+                        <br/>
+                        <h5>Principal Investigator</h5>
+                        <br/>
+                        <div class="row">
+                            {% if section.content and section.content[0] %}
+                                {% set content_html = section.content[0] %}
+                                {% if '<strong>' in content_html %}
+                                    {% set name_part = content_html.split('<strong>')[1].split('</strong>')[0] %}
+                                    {% set alt_text = name_part %}
+                                {% else %}
+                                    {% set alt_text = "Principal Investigator" %}
+                                {% endif %}
+                            {% else %}
+                                {% set alt_text = "Principal Investigator" %}
+                            {% endif %}
+                            <div class="col-12 offset-0 col-sm-12 offset-sm-0 col-md-4 offset-md-0 col-lg-4 offset-lg-0 col-xl-4 offset-xl-0">
+                                <img src="{{ section.heading }}" alt="{{ alt_text }}" class="homepage-image-stretch">
+                            </div>
+                            <div class="col-12 offset-0 col-sm-12 offset-sm-0 col-md-8 offset-md-0 col-lg-8 offset-lg-0 col-xl-8 offset-xl-0">
+                                {% for content in section.content %}
+                                    <br/>{{ content | safe }} <br/>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% elif section.index == 2 %}
+                    <div class="col-11 offset-1 col-sm-12 offset-sm-0 col-md-11 offset-md-1 col-lg-12 offset-lg-0 col-xl-11 offset-xl-1 col-xxl-10 offset-xxl-1">
+                        <br/>
+                        <br/>
+                        <br/>
+                        <h5>Lab Members</h5>
+                        <br/>
+                        <div class="row">
+                            {% if section.content and section.content[0] %}
+                                {% set content_html = section.content[0] %}
+                                {% if '<strong>' in content_html %}
+                                    {% set name_part = content_html.split('<strong>')[1].split('</strong>')[0] %}
+                                    {% set alt_text = name_part %}
+                                {% else %}
+                                    {% set alt_text = "Lab Member" %}
+                                {% endif %}
+                            {% else %}
+                                {% set alt_text = "Lab Member" %}
+                            {% endif %}
+                            <div class="col-12 offset-0 col-sm-12 offset-sm-0 col-md-4 offset-md-0 col-lg-4 offset-lg-0 col-xl-4 offset-xl-0">
+                                <img src="{{ section.heading }}" alt="{{ alt_text }}" class="homepage-image-stretch">
+                            </div>
+                            <div class="col-12 offset-0 col-sm-12 offset-sm-0 col-md-8 offset-md-0 col-lg-8 offset-lg-0 col-xl-8 offset-xl-0">
+                                {% for content in section.content %}
+                                    <br/>{{ content | safe }} <br/>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="col-11 offset-1 col-sm-12 offset-sm-0 col-md-11 offset-md-1 col-lg-12 offset-lg-0 col-xl-11 offset-xl-1 col-xxl-10 offset-xxl-1">
+                        <br/>
+                        <br/>
+                        <div class="row">
+                            {% if section.content and section.content[0] %}
+                                {% set content_html = section.content[0] %}
+                                {% if '<strong>' in content_html %}
+                                    {% set name_part = content_html.split('<strong>')[1].split('</strong>')[0] %}
+                                    {% set alt_text = name_part %}
+                                {% else %}
+                                    {% set alt_text = "Lab Member" %}
+                                {% endif %}
+                            {% else %}
+                                {% set alt_text = "Lab Member" %}
+                            {% endif %}
+                            <div class="col-12 offset-0 col-sm-12 offset-sm-0 col-md-4 offset-md-0 col-lg-4 offset-lg-0 col-xl-4 offset-xl-0 pb-3">
+                                <img src="{{ section.heading }}" alt="{{ alt_text }}" class="homepage-image-stretch">
+                            </div>
+                            <div class="col-12 offset-0 col-sm-12 offset-sm-0 col-md-8 offset-md-0 col-lg-8 offset-lg-0 col-xl-8 offset-xl-0">
+                                {% for content in section.content %}
+                                    <br/>{{ content | safe }} <br/>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    </div>
+{% endblock %}

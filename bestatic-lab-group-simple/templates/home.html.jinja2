@@ -1,0 +1,85 @@
+{% set css_path = "/static/css" %}
+{% set Image_path = "/static/Images" %}
+
+{% if post is defined %}
+    {% set katex = post.katex %}
+{% endif %}
+{% if page is defined %}
+    {% set katex = page.katex %}
+{% endif %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'partials/head.html.jinja2' -%}
+
+    {% if katex == True %}
+        {% include 'partials/katex.html.jinja2' %}
+    {% endif %}
+
+    <meta name="description" content="{% block description %}{{ description }}{% endblock %}"/>
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+</head>
+
+
+<body>
+    <script src="/static/js/vanilla-back-to-top.min.js"></script>
+    <script>
+        addBackToTop({
+            diameter: 56,
+            backgroundColor: 'rgb(12,64,201)',
+            textColor: '#fff'
+        })
+    </script>
+
+    <script src="/static/js/scrollnav.js"></script>
+
+    {% include 'partials/header.html.jinja2' %}
+    <div class="container">
+                {% for section in sections %}
+                    {% if section.index == 1 %}
+
+                    <div class="row">
+
+                        <div class="col-12 offset-0 col-sm-12 offset-sm-0 col-md-12 offset-md-0 col-lg-8 offset-lg-0 col-xl-8 offset-xl-0 mt-5">
+                            <div>
+                                {% for content in section.content %}
+                                    {{ content | safe }} <br/>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="col-11 offset-0 col-sm-11 offset-sm-0 col-md-9 offset-md-1 col-lg-4 offset-lg-0 col-xl-4 offset-xl-0 d-flex align-items-center justify-content-center">
+                            <div class="image-container">
+                                <br/>
+                                <img src="{{ page.metadata['image1'] }}" alt="somitoid image" class="homepage-image-stretch">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {# {% elif section.index == 2 %}
+                        <div class="row">
+                            <div class="col-12 offset-0 col-sm-12 offset-sm-0 col-md-12 offset-md-0 col-lg-12 offset-lg-0 col-xl-12 offset-xl-0">
+
+                                <div>
+                                    {% for content in section.content %}
+                                        {{ content | safe }} <br/>
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+                        </div> #}
+                            
+                    {% endif %}
+               {% endfor %}
+
+             
+        </div>
+
+    <br/>
+
+    {% include 'partials/footer.html.jinja2' %}
+</body>
+</html>

@@ -1,16 +1,21 @@
 {% extends "layout.html.jinja2" %}
-{% block title %}Tag: "{{ tags }}" | {{ title}} {% endblock %}
+{% block title %}{{ taxonomy_name|title }}: "{{ taxonomy_term }}" | {{ title}}{% endblock %}
 {% block content %}
 
 
 
     
 
-<h3><br/>Filtering for "{{ tags }}"</h3>
+<h3><br/>Filtering for "{{ taxonomy_term }}"</h3>
 
+{% if taxonomy_yaml and taxonomy_term in taxonomy_yaml %}
+<div class="taxonomy-info">
+    <p>{{ taxonomy_yaml[taxonomy_term].description }}</p>
+</div>
+{% endif %}
 
   <small>
-    <a href="/posts">Remove filter</a>
+    <a href="/{{ post_directory_plural }}">Remove filter</a>
   </small>
 
 <br/>
@@ -24,7 +29,7 @@
           {{ post[name].metadata["date"] }}
         </i></time>
       </span>
-      <a href="/post/{{ post[name].slug }}">{{ post[name].metadata["title"] }}</a>
+      <a href="/{{ post_directory_singular }}/{{ post[name].slug }}">{{ post[name].metadata["title"] }}</a>
 
 
     </li>

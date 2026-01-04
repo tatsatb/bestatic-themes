@@ -1,0 +1,655 @@
+/* Add at top of banerstyle.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700);
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,300italic,400italic,700,700italic);
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.12rem;
+  overflow-wrap: normal;
+  word-wrap: normal;
+  word-break: keep-all;
+  -webkit-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+}
+
+.display-4 {
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  width: 100%;
+  text-align: center;
+  margin-bottom: -0.5rem;
+  text-shadow: 3px 3px 5px rgba(51, 65, 93, 0.566);
+}
+
+.lead {
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  font-size: clamp(1.1rem, 2vw, 2rem);
+  text-shadow: 3px 3px 5px rgba(51, 65, 93, 0.566);
+  background-color: #716d6d7f; /* Added transparent black background */
+  padding: 0.2rem; /* Added padding to make text more readable */
+  border-radius: 4px; /* Optional: rounds the corners */
+}
+
+
+.title-underline {
+  width: min(90%, 900px);
+  height: 8px;
+  background-color: #4296f6;
+  border: none;
+  margin: 1rem auto;
+  opacity: 0.8;
+  border-radius: 2px;
+}
+
+.title-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-link.homepage {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: white; /* or any color for homepage */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.nav-link {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #081d4d;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+
+.nav-link-scrolled {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: black;
+}
+
+.nav-link-scrolled {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: black !important;
+}
+
+.scroll-text {
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.modal {
+  z-index: 2000; /* Higher than other elements */
+}
+
+.modal-backdrop {
+  opacity: 0.5 !important;
+  pointer-events: none;
+}
+
+.modal-dialog {
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.modal .form-control,
+.modal .btn-primary {
+  position: relative;
+  z-index: 1500;
+}
+
+.result-item strong {
+  font-weight: 600;
+  background-color: rgba(66, 150, 246, 0.2);
+  padding: 0 2px;
+  border-radius: 2px;
+}
+
+.smallptag{
+  font-size: 0.8rem;
+}
+
+.headercool{
+  background: radial-gradient(circle, rgba(174,238,188,1) 0%, rgba(196,161,213,1) 55%, rgba(148,187,233,1) 100%); 
+}
+
+
+
+.headerdiff{
+  background-image: linear-gradient(to left bottom, #e31102, #f81b42, #ff3972, #ff599f, #ff78c6, #e393e8, #c4abfb, #acbeff, #6ccfff, #00dfff, #00ebee, #00f2bd);
+}
+
+
+.navbar-header {
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  min-height: 22vh;
+  margin-bottom: -3vh; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
+  overflow: hidden;
+  }
+  
+  .navbar-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30vh;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255, 255, 255, 1) 90%
+    );
+    pointer-events: none;
+  }
+  
+.full-screen-header {
+  background-image: url('/static/Images/main_cover.webp'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+  
+
+#navbardemo {
+  background-color: inherit;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+
+.navbar-scrolled {
+  background-color: rgba(255, 255, 255, 0.828) !important;
+  backdrop-filter: blur(10px);/* Adjust this value as needed */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1030;
+  transition: background-color 0.3s ease;
+  background-color: transparent;
+}
+
+.navbar-logo {
+  width: auto;
+  height: 50px;
+  margin: 5px 0;
+  transition: all 0.3s ease;
+}
+
+@media screen and (max-width: 576px) {
+  .navbar-logo {
+    height: 40px;
+    margin: 2px 0;
+  }
+  
+  #navbardemo.navbar {
+    padding: 0.25rem 0.5rem;
+  }
+  
+  .navbar-brand {
+    margin-right: 0;
+    flex: 0 0 auto;
+  }
+  
+  .navbar > .container {
+    padding: 0 5px;
+  }
+  
+  .navbar-toggler {
+    padding: 2px 6px;
+    font-size: 0.95rem;
+  }
+}
+
+@-moz-document url-prefix() {
+  @media screen and (max-width: 320px) {
+    .navbar-logo {
+      height: 30px;  /* Smaller for Firefox mobile */
+      margin: 1px 0;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+}
+
+
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    margin-top: 0.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .navbar-scrolled .navbar-collapse {
+    background: rgba(177, 228, 255, 0.05);
+    backdrop-filter: none !important;
+    box-shadow: none !important; 
+    border-radius: 0 !important;
+  }
+
+  .nav-link {
+    color: #001effe1 !important;
+  }
+}
+
+
+.navbar-toggler-white .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(128,128,128, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+/* Optional: Change color of the border of the toggle button */
+.navbar-toggler-white {
+  border-color: rgba(255,255,255, 1);
+}
+
+.dropdown-item:hover {
+  background-color: bisque !important;
+}
+
+.scroll-down-container {
+  display: flex;
+  flex-direction: column;  /* Stack children vertically */
+  align-items: center;     /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  position: absolute;
+  bottom: 0.25rem;
+  width: 100%;
+  gap: 0.5rem;              /* Space between elements */
+}
+
+.scroll-text {
+  color: white;
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+.scroll-down-btn {
+  padding: 0.5rem;
+  border-radius: 50%;
+  animation: bounce 2s infinite;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.scroll-down-btn:hover {
+  opacity: 1;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+.scaled-svg {
+  width: 9%;
+  height: 9%;
+}
+
+.logo-img {
+  height: 60px;  /* Adjust this value as needed */
+  width: auto;
+  object-fit: contain;
+}
+
+h5.mb-3 {
+  color: rgb(34, 197, 143) !important;
+}
+
+p {
+  font-size: 1.12rem;
+  margin-bottom: 0.5rem;
+  word-wrap: break-word;
+  overflow-wrap: normal;
+  word-wrap: normal;
+  word-break: keep-all;
+  -webkit-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none; /* Adjust this value as needed */
+}
+
+a {
+  word-wrap: break-word;
+  overflow-wrap: normal;
+  word-wrap: normal;
+  word-break: keep-all;
+  -webkit-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
+  color:#ee5b57;
+}
+
+a:hover {
+  color: #0d81fe !important;
+}
+
+
+
+h4{
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #081d4d;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #554cfd;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D";
+}
+blockquote:before {
+  color: #4644f082;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+blockquote p {
+  display: inline;
+}
+
+
+.tbh3 {
+  font-family: "Roboto Slab";
+  font-weight: 400;
+  font-style: bold;
+  line-height: 1.4;
+  color: #000000;
+}
+
+.tbh3h {
+  font-family: "Roboto Slab";
+  font-weight: 650;
+  font-style: bold;
+  line-height: 1.4;
+  color: #140a5d;
+  position: relative;
+  padding: 1.2rem 1.2rem;
+  display: inline-block;
+  background: none;
+}
+
+.tbh3h::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/static-content/Images/shared/brush.png');
+  background-repeat: no-repeat;
+  background-size: 110% 110%;
+  background-position: -20px;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.tbh4 {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #09276c;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.post-navigation {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.card-img-top {
+  height: 500px;  /* Set fixed height */
+  object-fit: contain;  /* Maintain aspect ratio while filling container */
+}
+
+@media (max-width: 1200px) {
+  .card-img-top {
+    height: 400px;
+  }
+}
+
+
+@media (max-width: 576px) {
+  .card-img-top {
+      height: 250px;
+  }
+}
+
+mark {
+  background-color: #a30a73;
+  color: #ffffff;
+}
+
+table td:first-child {
+  padding-right: 2rem !important; /* Increase right padding of first column */
+}
+
+table td, table th {
+  vertical-align: top !important; /* Align all cell content to top */
+  padding-top: 1rem;
+}
+
+/* For Bootstrap tables specifically */
+.table > :not(caption) > * > * {
+  vertical-align: top !important;
+}
+
+.table td:first-child {
+  padding-right: 2rem !important;
+}
+
+
+
+
+figure {
+  border: 2pt solid #ee5b57;
+  background: #efefef;
+  color: #111;
+  padding: 4pt;
+  display: inline-block;
+
+ }
+ figure figcaption {
+  width: 100%;
+  text-align: center;
+ }
+ figure img {
+  object-fit: cover;
+  margin: 0 auto !important;
+  max-width: 100%;
+  max-height: 100%;
+  width: 100%;
+  height: 350px;
+  display: block;
+ }
+ 
+
+ figure.nice {
+  width: 100%;
+  height: 450px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+figure.nice img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  object-position: center;
+}
+
+figure.nice figcaption {
+  padding: 10px;
+  flex: 1;
+  min-height: 0; /* Allow shrinking */
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+
+/* Medium devices (tablets) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  figure.nice {
+    height: 450px; /* Increased container height */
+  }
+  
+  figure.nice img {
+    height: 300px;
+    flex-shrink: 0; /* Prevent image shrinking */
+  }
+  
+  figure.nice figcaption {
+    max-height: 200px; /* Fixed caption height */
+    overflow-y: auto; /* Scrollable if needed */
+    padding: 15px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  figure.nice figcaption p {
+    margin-bottom: 0.5rem;
+  }
+}
+
+@media (max-width: 350px){
+  figure.nice {
+    height: 300px; /* Increased container height */
+  }
+  
+  figure.nice img {
+    height: 185px;
+    flex-shrink: 0; /* Prevent image shrinking */
+  }
+  
+  figure.nice figcaption {
+    max-height: 300px; /* Fixed caption height */
+    overflow-y: auto; /* Scrollable if needed */
+    padding: 10px 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  figure.nice figcaption p {
+    margin-bottom: 0.1rem;
+  }
+}
+
+.team-image {
+  width: 100%;
+  height: auto;
+  padding: 15px 15px 50px 15px;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid #ddd;
+  transform: rotate(-1deg);
+  display: block;
+  margin: 0 auto;  /* Center the image */
+  box-sizing: border-box;  /* Include padding in width calculation */
+}
+
+@media (min-width: 768px) {
+  .team-image {
+    width: 75%;
+    padding: 15px 15px 50px 15px;
+  }
+}
+
+figure.normal {
+  width: 100%;
+  margin: 1rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+figure.normal img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+}
+
+/* 
+ * Styles for a video wrapper.
+ * To be used by generators like vimeo, youtube...
+ */
+ .videowrapper {
+  position:relative;
+  overflow:hidden;
+  height:0;
+  width:100%;
+  padding-bottom:56.25%;
+}
+.videowrapper iframe {
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  height:100%;
+}
+
+
+a[href^="http"], a[href^="https"] {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  max-width: 100%;
+  display: inline-block;
+}
+
+/* Fix for publications page content overflow
+.container, .container-fluid {
+  overflow-x: hidden;
+} */
+
+/* Make DOI links wrap properly */
+[href^="https://doi.org"] {
+  word-break: break-all;
+}
+
+
+

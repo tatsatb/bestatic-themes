@@ -1,0 +1,114 @@
+{% extends "layout.html.jinja2" %}
+{% block title %}{{page.metadata["title"]}} | {{ title}}{% endblock %}
+{% block description %}{{page.metadata["description"]}}{% endblock %}
+{% block content %}
+
+    <div class="container mt-4">
+      <div class="row">
+        <div class="col-11 offset-1 col-sm-12 offset-sm-0 col-md-11 offset-md-1 col-lg-12 offset-lg-0 col-xl-11 offset-xl-1 col-xxl-10 offset-xxl-1">
+        <br/>
+        <h3 class="tbh3">{{page.metadata["title"]}}</h3>
+        <img src="{{ page.metadata['image'] }}" alt="Devreotes Lab Group Photo" class="img-fluid w-100" style="border: 2px solid #ee5b57; padding: 4pt; display: inline-block; background: #efefef; max-width: 100%"">
+        </div>
+      </div>
+    </div>
+
+
+    {% set raw_sections = page.content.split('<h3 class="tbh4">') %}
+    {% set pi_content = namespace(value="") %}
+    {% set members_content = namespace(value="") %}
+    
+    {% for section in raw_sections %}
+      {% if 'Principal Investigator' in section %}
+        {% set pi_content.value = section | replace('Principal Investigator</h3>', '', 1) | trim %}
+      {% endif %}
+      {% if 'Lab Members' in section %}
+        {% set members_content.value = section | replace('Lab Members</h3>', '', 1) | trim %}
+      {% endif %}
+    {% endfor %}
+
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-11 offset-1 col-sm-12 offset-sm-0 col-md-11 offset-md-1 col-lg-12 offset-lg-0 col-xl-11 offset-xl-1 col-xxl-10 offset-xxl-1">
+    <br/>
+            <h4 class="tbh4">Principal Investigator</h4>
+        <br/>
+    <div class="text-center">
+
+        {{ pi_content.value | safe }}
+
+    </div></div>
+  </div>
+</div>
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-11 offset-1 col-sm-12 offset-sm-0 col-md-11 offset-md-0 col-lg-12 offset-lg-0 col-xl-11 offset-xl-1 col-xxl-10 offset-xxl-1">
+  <br/>
+ 
+  <h4 class="tbh4">Lab Members <br/><br/></h4>
+ 
+
+{% set member_list = members_content.value.split('</figure>') %}
+{% set total_members = member_list|length - 1 %}
+
+{# Calculate rows for both layouts #}
+{% set lg_rows = (total_members / 3)|int %}
+{% set lg_remaining = total_members % 3 %}
+{% set sm_rows = (total_members / 2)|int %}
+{% set sm_remaining = total_members % 2 %}
+
+{# Small/Medium Layout #}
+<div class="d-lg-none">
+  {% for row in range(sm_rows) %}
+    <div class="row mb-5">
+      {% for i in range(2) %}
+        <div class="col-12 col-sm-6 px-3 mb-5">
+          {{ member_list[row * 2 + i] ~ '</figure>' | safe }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+  
+  {% if sm_remaining > 0 %}
+    <div class="row justify-content-center mb-5">
+      {% for i in range(sm_remaining) %}
+        <div class="col-12 col-sm-6 px-4 mb-5">
+          {{ member_list[sm_rows * 2 + i] ~ '</figure>' | safe }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+{# Large+ Layout #}
+<div class="d-none d-lg-block">
+  {% for row in range(lg_rows) %}
+    <div class="row mb-5">
+      {% for i in range(3) %}
+        <div class="col-4 px-4 mb-5">
+          {{ member_list[row * 3 + i] ~ '</figure>' | safe }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+  
+  {% if lg_remaining > 0 %}
+    <div class="row justify-content-center mb-5">
+      {% for i in range(lg_remaining) %}
+        <div class="col-4 px-4 mb-5">
+          {{ member_list[lg_rows * 3 + i] ~ '</figure>' | safe }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
+
+
+<p class="text-center mt-4">To see the list of lab alumni, please <a href="/people/alumni">click here</a>.<br/><br/></p>
+
+</div>
+</div>
+</div>
+{% endblock %}

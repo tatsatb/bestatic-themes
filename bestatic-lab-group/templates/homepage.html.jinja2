@@ -1,0 +1,132 @@
+{% set css_path = "/static/css" %}
+{% set Image_path = "/static/Images" %}
+
+{% if post is defined %}
+    {% set katex = post.katex %}
+{% endif %}
+{% if page is defined %}
+    {% set katex = page.katex %}
+{% endif %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'partials/head.html.jinja2' -%}
+
+    {% if katex == True %}
+        {% include 'partials/katex.html.jinja2' %}
+    {% endif %}
+
+    <meta name="description" content="{% block description %}{{ description }}{% endblock %}"/>
+    <title>{% block title %}{{ title }}{% endblock %}</title>
+</head>
+
+<body>
+    <script src="/static/js/vanilla-back-to-top.min.js"></script>
+    <script>
+        addBackToTop({
+            diameter: 56,
+            backgroundColor: 'rgb(12,64,201)',
+            textColor: '#fff'
+        })
+    </script>
+
+    <script src="/static/js/scrollnav.js"></script>
+
+    {% include 'partials/header.html.jinja2' %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 offset-0 col-sm-12 offset-sm-0 col-md-11 offset-md-0 col-lg-11 offset-lg-1 col-xl-10 offset-xl-1">
+                {% for section in sections %}
+                    {% if section.index == 1 %}
+                        <div class="research mt-4">
+                            <h3 class="tbh3h mb-4">{{ section.heading }}</h3>
+                            {% for content in section.content %}
+                                <p>{{ content | safe }} <br/></p>
+                            {% endfor %}
+                            
+                            <div class="row row-cols-1 row-cols-lg-3 g-4">
+                                {% for subsection in sections if subsection.index in [2,3,4] %}
+                                    <div class="col">
+                                        <div class="card border-primary h-100">
+                                            <img src="{{ page.metadata['image' ~ loop.index] }}" class="card-img-top" alt="{{ subsection.heading }}">
+                                            <div class="card-body d-flex flex-column">
+                                                <h5 class="card-title tbh3">{{ subsection.heading }}</h5>
+                                                <p class="card-text">{{ subsection.content[0] | safe }}</p>
+                                                <a href="/research/{{ subsection.heading | lower | replace(' ', '-') }}" class="btn btn-dark mt-auto align-self-start">Learn More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if section.index == 5 %}
+                        <div class="team mt-5">
+                            <h3 class="tbh3h mb-6">{{ section.heading }}</h3>
+                            {% for content in section.content %}
+                                <p>{{ content | safe }}</p>
+                            {% endfor %}
+                            <div class="text-center mt-4">
+                                <img src="{{ page.metadata['imagemember'] }}" alt="Devreotes group lab group picture" class="team-image">
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="row mt-5">
+                    <div class="col-12 col-lg-6">
+                        <div class="news">
+                            {% for section in sections if section.index == 6 %}
+                                <h3 class="twocol tbh3h">{{ section.heading }}</h3>
+                                <ol>
+                                    {% set count = namespace(value=0) %}
+                                    {% for filename, post in post_list.items() %}
+                                        {% if count.value < 5 %}
+                                            <li>
+                                                <p>
+                                                    <a href="/{{ post_directory_singular }}/{{post.path_info}}/{{post.slug}}">{{ post.title }}</a>
+                                                </p>
+                                            </li>
+                                            {% set count.value = count.value + 1 %}
+                                        {% endif %}
+                                    {% endfor %}
+                                </ol>
+                                {% for content in section.content %}
+                                    <p>{{ content | safe }}</p>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6">
+                        
+                            {% for section in sections if section.index == 7 %}
+                                <h3 class="twocol tbh3h">{{ section.heading }}</h3>
+                                {% for content in section.content %}
+                                    {{ content | safe }}
+                                {% endfor %}
+                            {% endfor %}
+                        
+                    </div>
+                </div>
+
+                {% for section in sections if section.index == 8 %}
+                    <div class="diversity my-3">
+                        <h3 class="tbh3h">{{ section.heading }}</h3>
+                        <br/>
+                        {% for content in section.content %}
+                            {{ content | safe }}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <br/>
+
+    {% include 'partials/footer.html.jinja2' %}
+</body>
+</html>

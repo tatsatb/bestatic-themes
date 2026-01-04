@@ -1,5 +1,5 @@
-{% extends "layout.html.jinja2" %}
-{% block title %}{{ taxonomy_name|title }} Page | {{ taxonomy_term }} | {{ title}}{% endblock %}
+{% extends "layout3.html.jinja2" %}
+{% block title %}{{ taxonomy_name|title }} Page | {{ taxonomy_term }} | {{ title}} {% endblock %}
 {% block content %}
 
 
@@ -11,22 +11,19 @@
 <h2 class="tbh2"><br/>Blog Page | {{ taxonomy_name|title }}: {{ taxonomy_term }}</h2>
 <br>
 
-{% if taxonomy_yaml and taxonomy_term in taxonomy_yaml %}
-<div class="taxonomy-info">
-    <p>{{ taxonomy_yaml[taxonomy_term].description }}</p>
-</div>
-{% endif %}
 
 <br><br>
           {% for name in post %}
-        <h3 class="tbh3">{{ post[name].metadata["title"] }}</h3>
+        <h3 class="tbh3">{{ post[name].metadata["title"] }} 
+        {% if post[name].path_info %}
+        <a href="/{{ post_directory_singular }}/{{ post[name].path_info }}/{{ post[name].slug }}">[🔗]</a> 
+        {% else %}
+        <a href="/{{ post_directory_singular }}/{{ post[name].slug }}">[🔗]</a>
+        {% endif %}        
+        </h3>
           <p class="myptag">Posted on {{ post[name].metadata["date"] }}</p>
         <p>{{ post[name].summary }}</p></ul>
-        {% if post[name].path_info %}
         <p class="myreadmore"><a href="/{{ post_directory_singular }}/{{ post[name].path_info }}/{{ post[name].slug }}">Read More</a></p>
-        {% else %}
-        <p class="myreadmore"><a href="/{{ post_directory_singular }}/{{ post[name].slug }}">Read More</a></p>
-        {% endif %}
         <br><br>
         {% endfor %}
 

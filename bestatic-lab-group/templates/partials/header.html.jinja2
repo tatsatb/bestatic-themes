@@ -1,0 +1,77 @@
+<header class="headercool full-screen-header">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+      </div>
+    </div>
+  </div>
+ 
+
+  {% from "partials/macros/navmacro.html.jinja2" import render_nav_homepage %}
+
+  {{ render_nav_homepage(nav, is_homepage=true) }}
+
+
+  <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-fullscreen-md-down modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="searchModalLabel">Search</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p class="smallptag">White space acts as an AND operator, while a single pipe (|) character acts as an OR operator. To escape white space, use double quote, for e.g., "scheme language" for exact match. For exact match in the single words, start with an apostrophe ('), for e.g., 'scheme. </p>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search..." aria-label="Search" b-search-file-index="/index.json" id="searchInput">
+                <button class="btn btn-primary" type="button">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  <div class="container h-100">
+    <div class="row h-100 align-items-center justify-content-center text-center">
+      <div class="title-wrapper">
+        <h2 class="display-4 text-white">Signal tranduction meets cell migration...</h2>
+        <hr class="title-underline">
+        <h3 class="lead text-white">Our goal is to understand how complex signaling and cytoskeletal networks work together to regulate cell polarity and migration, from genetic, biophyisical, and systems perspective. </h3>
+      </div>
+    </div>
+  </div>
+
+<div class="scroll-down-container">
+  <div class="scroll-text">Scroll down to learn more</div>
+  <button type="button" class="btn btn-outline-light scroll-down-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+      <path fill-rule="nonzero" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+document.querySelector('.scroll-down-btn').addEventListener('click', () => {
+    window.scrollTo({
+      top: window.innerHeight,
+      behavior: 'smooth'
+    });
+  });
+
+
+document.getElementById('searchModal').addEventListener('shown.bs.modal', function () {
+    document.getElementById('searchInput').focus();
+});
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0"></script>
+<script src="/static/js/fuse-search-modal-ui.js"></script>
+
+</header>
+
+
+

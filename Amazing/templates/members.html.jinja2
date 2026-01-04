@@ -1,0 +1,87 @@
+{% extends "layout.html.jinja2" %}
+{% block title %}{{ page.metadata["title"] }} | {{ title }}{% endblock %}
+{% block description %}{{ page.metadata["description"] }}{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-10 offset-sm-1 col-md-9 offset-md-1 col-lg-8 offset-lg-2 col-xl-8 offset-lg-2">
+            <br/><br/>
+            <h3 class="tbh3"><br/>{{ page.metadata["title"] }}</h3>
+
+            {% if sections %}
+                {# Parse data_files from page metadata #}
+                {% set data_file_list = [] %}
+                {% if page.metadata.data_files %}
+                    {% set data_files_str = page.metadata.data_files | string %}
+                    {% for df in data_files_str.split(',') %}
+                        {% set df_clean = df.strip().replace('.yaml', '').replace('.yml', '') %}
+                        {% set _ = data_file_list.append(df_clean) %}
+                    {% endfor %}
+                {% endif %}
+                
+                {# Counter for tracking which data file to use #}
+                {% set data_file_index = namespace(value=0) %}
+                
+                {% for section in sections %}
+                    {# Check if this section has a data marker #}
+                    {% set section_content_str = section.content | join('') | string %}
+                    {% set has_data_marker = '{[!data!]}' in section_content_str %}
+                    
+                    {# Only show heading if section has data marker #}
+                    {% if has_data_marker %}
+                        <h4 class="tbh4">{{ section.heading }}</h4>
+                    {% endif %}
+                    
+                    {# Display section content without the marker #}
+                    {% for content in section.content %}
+                        {% if '{[!data!]}' not in content %}
+                            {{ content | safe }}
+                        {% endif %}
+                    {% endfor %}
+
+                    {# Render data file if marker was found #}
+                    {% if has_data_marker %}
+                        {% if data_file_index.value < data_file_list | length %}
+                            {% set current_file_name = data_file_list[data_file_index.value] %}
+                            {% if data_files and current_file_name in data_files %}
+                                {% set current_data = data_files[current_file_name] %}
+                                {% if current_data and current_data is iterable and current_data is not string %}
+                                    <div class="members-list">
+                                        {% for member in current_data %}
+                                            <div class="member-card" style="margin-bottom: 30px; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
+                                                <h5 style="margin-top: 0; color: #2c3e50;">{{ member.name }}</h5>
+                                                {% if member.role %}
+                                                    <p style="margin: 5px 0; font-weight: 600; color: #34495e;">{{ member.role }}</p>
+                                                {% endif %}
+                                                {% if member.email %}
+                                                    <p style="margin: 5px 0;">
+                                                        <strong>Email:</strong> <a href="mailto:{{ member.email }}">{{ member.email }}</a>
+                                                    </p>
+                                                {% endif %}
+                                                {% if member.expertise %}
+                                                    <p style="margin: 10px 0 0 0;">
+                                                        <strong>Expertise:</strong> {{ member.expertise }}
+                                                    </p>
+                                                {% endif %}
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                            {# Increment counter for next data file #}
+                            {% set data_file_index.value = data_file_index.value + 1 %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                {# Fallback if sections are not used #}
+                {{ page.content }}
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

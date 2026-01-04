@@ -1,9 +1,6 @@
-<nav>
-<a href="/">Home</a>
-<a href="/bear">Bear</a>
-<a href="/bestatic">Bestatic</a>
-<a href="/posts">Blog</a>
-</nav>
+{% from "partials/macros/navmacro.html.jinja2" import render_nav %}
+
+{{ render_nav(nav, post_directory_plural) }}
 
 
 
